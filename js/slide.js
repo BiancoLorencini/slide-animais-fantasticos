@@ -24,6 +24,7 @@ export default class Slide {
     if (event.type === "mousedown") {
       event.preventDefault();
       this.dist.startX = event.clientX;
+      moveType = "mousemove";
     } else {
       this.dist.startX = event.changedTouches[0].clientX;
       moveType = "touchmove";
@@ -57,9 +58,29 @@ export default class Slide {
     this.onEnd = this.onEnd.bind(this);
   }
 
+//Slides config
+
+  slidePosition(slide) {
+    const margin = (this.wrapper.offsetWidth - slide.offsetWidth) / 2;
+    console.log(margin)
+    return margin;
+  }
+
+  slidesConfig() {
+    this.slideArray = [...this.slide.children].map((element) => {
+      const position = this.slidePosition(element);
+      return {
+        position,
+        element
+      }
+    });
+    console.log(this.slideArray);
+  }
+
   init() {
     this.bindEvents();
     this.addSlideEvents();
+    this.slidesConfig();
     return this;
   }
 }
